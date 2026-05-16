@@ -1,10 +1,18 @@
-function Navbar() {
+import "./Navbar.css"
 
+function Navbar() {
   return (
-    <div>
-      <h1>Panel AulaSmart</h1>
-    </div>
-  );
+    <header className="navbar">
+
+      <div className="navbar-left">
+        <h2>AulaSmart</h2>
+      </div>
+
+      <div className="navbar-right">
+      </div>
+
+    </header>
+  )
 }
 
-export default Navbar;
+export default Navbar

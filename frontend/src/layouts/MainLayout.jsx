@@ -1,36 +1,24 @@
-import { Outlet } from "react-router-dom";
+import "./MainLayout.css"
 
-import Navbar from "../components/navbar/Navbar";
-import Sidebar from "../components/sidebar/Sidebar";
+import { Outlet } from "react-router-dom"
 
-import "./MainLayout.css";
+import Sidebar from "../components/sidebar/Sidebar"
+import Navbar from "../components/navbar/Navbar"
 
 function MainLayout() {
-
   return (
-
-    <div className="layout-container">
-
-      {/* Sidebar */}
+    <div className="layout">
       <Sidebar />
 
-      {/* Contenido principal */}
-      <div className="main-content">
-
-        {/* Navbar */}
+      <div className="main-section">
         <Navbar />
 
-        {/* Páginas dinámicas */}
-        <div className="page-content">
-
+        <main className="content">
           <Outlet />
-
-        </div>
-
+        </main>
       </div>
-
     </div>
-  );
+  )
 }
 
-export default MainLayout;
+export default MainLayout

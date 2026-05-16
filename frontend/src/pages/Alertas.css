@@ -1,0 +1,22 @@
+.alertas-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.alertas-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.alertas-header p {
+  color: #cbd5e1;
+}
+
+.alertas-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 1.5rem;
+}

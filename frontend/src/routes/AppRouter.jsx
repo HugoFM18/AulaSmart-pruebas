@@ -1,62 +1,80 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import React from 'react';
 
-import MainLayout from "../layouts/MainLayout";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 
-import Dashboard from "../pages/Dashboard";
-import Alertas from "../pages/Alertas";
-import Dispositivos from "../pages/Dispositivos";
-import Sensores from "../pages/Sensores";
-import Usuarios from "../pages/Usuarios";
+import MainLayout from '../layouts/MainLayout';
 
-function AppRouter() {
+// Páginas reales
+import Alertas from '../pages/Alertas';
+import Historial from '../pages/Historial';
 
+// Placeholder temporal Dashboard
+const DashboardPlaceholder = () => (
+  <div className="view-header">
+    <h2>Monitoreo en Tiempo Real</h2>
+
+    <p>
+      Visualización de sensores analógicos y digitales
+      distribuidos en la institución.
+    </p>
+  </div>
+);
+
+// Placeholder temporal Dispositivos
+const DispositivosPlaceholder = () => (
+  <div className="view-header">
+    <h2>Hardware e Infraestructura IoT</h2>
+
+    <p>
+      Verificación de integridad de los dispositivos
+      físicos y llaves criptográficas.
+    </p>
+  </div>
+);
+
+const AppRouter = () => {
   return (
-
     <BrowserRouter>
-
       <Routes>
-
-        {/* Layout principal */}
-        <Route element={<MainLayout />}>
-
-          {/* Redirección inicial */}
+        <Route path="/" element={<MainLayout />}>
           <Route
-            path="/"
-            element={<Navigate to="/dashboard" />}
-          />
-
-          {/* Rutas */}
-          <Route
-            path="/dashboard"
-            element={<Dashboard />}
+            index
+            element={<Navigate to="/dashboard" replace />}
           />
 
           <Route
-            path="/alertas"
+            path="dashboard"
+            element={<DashboardPlaceholder />}
+          />
+
+          <Route
+            path="alertas"
             element={<Alertas />}
           />
 
           <Route
-            path="/dispositivos"
-            element={<Dispositivos />}
+            path="dispositivos"
+            element={<DispositivosPlaceholder />}
           />
 
           <Route
-            path="/sensores"
-            element={<Sensores />}
+            path="historial"
+            element={<Historial />}
           />
-
-          <Route
-            path="/usuarios"
-            element={<Usuarios />}
-          />
-
         </Route>
 
+        <Route
+          path="*"
+          element={<Navigate to="/dashboard" replace />}
+        />
       </Routes>
-
     </BrowserRouter>
   );
-}
+};
 
 export default AppRouter;
