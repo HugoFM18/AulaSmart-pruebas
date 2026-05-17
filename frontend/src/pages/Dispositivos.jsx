@@ -1,46 +1,77 @@
+import { useEffect, useState } from "react";
+
 import DeviceCard from "../components/cards/DeviceCard";
-import DeviceForm from "../components/forms/DeviceForm";
 
-import "../styles/dispositivos/dispositivos.css";
+import { getDevices } from "../services/deviceService";
 
-function Dispositivos() {
+import "./Dispositivos.css";
 
-  const dispositivos = [
-    {
-      id: 1,
-      nombre: "Sensor Temperatura",
-      activo: true,
-      sensores: 4,
-    },
+const Dispositivos = () => {
+  const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    {
-      id: 2,
-      nombre: "Sensor Humedad",
-      activo: false,
-      sensores: 2,
-    },
-  ];
+  useEffect(() => {
+    fetchDevices();
+  }, []);
+
+  const fetchDevices = async () => {
+    try {
+      const response = await getDevices();
+
+      console.log(
+        "RESPUESTA API:",
+        response
+      );
+
+      setDevices(
+        response.dispositivos || []
+      );
+    } catch (error) {
+      console.error(
+        "Error obteniendo dispositivos:",
+        error
+      );
+
+      setDevices([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="dispositivos-container">
+    <div className="devices-page">
+      <div className="page-header">
+        <h1>Dispositivos IoT</h1>
 
-      <h1>Dispositivos</h1>
-
-      <DeviceForm />
-
-      <div className="cards-container">
-
-        {dispositivos.map((dispositivo) => (
-          <DeviceCard
-            key={dispositivo.id}
-            dispositivo={dispositivo}
-          />
-        ))}
-
+        <p>
+          Monitoreo y visualización de
+          dispositivos conectados al sistema.
+        </p>
       </div>
 
+      {loading ? (
+        <p>Cargando dispositivos...</p>
+      ) : (
+        <div className="devices-grid">
+          {devices.length > 0 ? (
+            devices.map((device) => (
+              <DeviceCard
+                key={device.id}
+                nombre={device.nombre}
+                activo={device.activo}
+                sensores={device.sensores}
+              />
+            ))
+          ) : (
+            <p>
+              No hay dispositivos
+              registrados.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default Dispositivos;

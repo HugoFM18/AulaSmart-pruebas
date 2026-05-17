@@ -1,97 +1,99 @@
-import "./Alertas.css"
+import { useEffect, useState } from "react";
 
-import { useEffect, useState } from "react"
+import AlertCard from "../components/cards/AlertCard";
 
-import AlertCard from "../components/cards/AlertCard"
-import AlertTable from "../components/tables/AlertTable"
+import { getAlertas } from "../services/alertasService";
 
-import { getAlertas } from "../services/alertasService"
+import "./Alertas.css";
 
-function Alertas() {
+const Alertas = () => {
 
-  const [alertas, setAlertas] = useState([])
-
-  const [loading, setLoading] = useState(true)
-
-  const [error, setError] = useState(null)
+  const [alertas, setAlertas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    fetchAlertas();
+  }, []);
 
-    const fetchAlertas = async () => {
+  const fetchAlertas = async () => {
 
-      try {
+    try {
 
-        const data = await getAlertas()
+      const response =
+        await getAlertas();
 
-        setAlertas(data)
+      console.log(
+        "RESPUESTA ALERTAS:",
+        response
+      );
 
-      } catch (err) {
+      setAlertas(
+        response.alertas || []
+      );
 
-        setError(
-          "Error cargando alertas"
-        )
+    } catch (error) {
 
-      } finally {
+      console.error(
+        "Error obteniendo alertas:",
+        error
+      );
 
-        setLoading(false)
-      }
+    } finally {
+
+      setLoading(false);
+
     }
-
-    fetchAlertas()
-
-  }, [])
-
-  if (loading) {
-    return <h2>Cargando alertas...</h2>
-  }
-
-  if (error) {
-    return <h2>{error}</h2>
-  }
+  };
 
   return (
-
     <div className="alertas-page">
 
-      <div className="alertas-header">
+      <div className="page-header">
 
-        <h1>Alertas del Sistema</h1>
+        <h1>
+          Alertas Inteligentes
+        </h1>
 
         <p>
-          Monitoreo y detección de anomalías
-          provenientes de sensores IoT.
+          Monitoreo automático de
+          condiciones ambientales.
         </p>
 
       </div>
 
-      <div className="alertas-grid">
+      {loading ? (
 
-        {alertas.map((alerta) => (
+        <p>Cargando alertas...</p>
 
-          <AlertCard
-            key={alerta.id}
+      ) : (
 
-            tipo={alerta.tipo_sensor}
+        <div className="alerts-grid">
 
-            mensaje={alerta.mensaje}
+          {alertas.length > 0 ? (
 
-            nivel={alerta.nivel}
+            alertas.map((alerta) => (
 
-            fecha={
-              new Date(
-                alerta.timestamp
-              ).toLocaleString()
-            }
-          />
+              <AlertCard
+                key={alerta.id}
+                alerta={alerta}
+              />
 
-        ))}
+            ))
 
-      </div>
+          ) : (
 
-      <AlertTable alertas={alertas} />
+            <p>
+              No hay alertas activas.
+            </p>
+
+          )}
+
+        </div>
+
+      )}
 
     </div>
-  )
-}
+  );
+};
 
-export default Alertas
+export default Alertas;

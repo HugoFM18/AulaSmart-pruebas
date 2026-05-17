@@ -1,23 +1,30 @@
-import "../../styles/dispositivos/deviceCard.css";
-
-function DeviceCard({ dispositivo }) {
+const DeviceCard = ({
+  nombre,
+  activo,
+  sensores,
+}) => {
   return (
     <div className="device-card">
-
-      <h3>{dispositivo.nombre}</h3>
+      <h3>{nombre}</h3>
 
       <p>
         Estado:
-        {dispositivo.activo ? " Activo" : " Inactivo"}
+        <span
+          className={
+            activo
+              ? "status active"
+              : "status inactive"
+          }
+        >
+          {activo ? " Activo" : " Inactivo"}
+        </span>
       </p>
 
       <p>
-        Sensores activos:
-        {dispositivo.sensores}
+        Sensores activos: {sensores}
       </p>
-
     </div>
   );
-}
+};
 
 export default DeviceCard;

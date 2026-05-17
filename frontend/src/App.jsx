@@ -1,7 +1,7 @@
-import Dispositivos from "./pages/Dispositivos";
+import AppRouter from "./routes/AppRouter";
 
 function App() {
-  return <Dispositivos />;
+  return <AppRouter />;
 }
 
 export default App;

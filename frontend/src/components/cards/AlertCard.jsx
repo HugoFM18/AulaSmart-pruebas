@@ -1,15 +1,51 @@
-import "./AlertCard.css"
+import "./AlertCard.css";
 
-function AlertCard({ tipo, mensaje, nivel, fecha }) {
+const AlertCard = ({ alerta }) => {
+
+  const alertClass =
+    alerta.nivel === "critica"
+      ? "danger"
+      : alerta.nivel === "media"
+      ? "warning"
+      : "normal";
+
   return (
-    <div className={`alert-card ${nivel}`}>
-      <h3>{tipo}</h3>
+    <div
+      className={`alert-card ${alertClass}`}
+    >
 
-      <p>{mensaje}</p>
+      <div className="alert-header">
 
-      <span>{fecha}</span>
+        <h3>
+          {alerta.tipo}
+        </h3>
+
+        <span className="alert-level">
+          {alerta.nivel}
+        </span>
+
+      </div>
+
+      <p className="alert-message">
+        {alerta.mensaje}
+      </p>
+
+      <div className="alert-footer">
+
+        <span>
+          Sensor:
+          {" "}
+          {alerta.sensor}
+        </span>
+
+        <span>
+          {alerta.fecha}
+        </span>
+
+      </div>
+
     </div>
-  )
-}
+  );
+};
 
-export default AlertCard
+export default AlertCard;

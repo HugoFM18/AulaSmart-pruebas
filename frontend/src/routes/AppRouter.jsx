@@ -1,41 +1,16 @@
-import React from 'react';
-
 import {
   BrowserRouter,
   Routes,
   Route,
   Navigate,
-} from 'react-router-dom';
+} from "react-router-dom";
 
-import MainLayout from '../layouts/MainLayout';
+import MainLayout from "../layouts/MainLayout";
 
-// Páginas reales
-import Alertas from '../pages/Alertas';
-import Historial from '../pages/Historial';
-
-// Placeholder temporal Dashboard
-const DashboardPlaceholder = () => (
-  <div className="view-header">
-    <h2>Monitoreo en Tiempo Real</h2>
-
-    <p>
-      Visualización de sensores analógicos y digitales
-      distribuidos en la institución.
-    </p>
-  </div>
-);
-
-// Placeholder temporal Dispositivos
-const DispositivosPlaceholder = () => (
-  <div className="view-header">
-    <h2>Hardware e Infraestructura IoT</h2>
-
-    <p>
-      Verificación de integridad de los dispositivos
-      físicos y llaves criptográficas.
-    </p>
-  </div>
-);
+import Dashboard from "../pages/Dashboard";
+import Alertas from "../pages/Alertas";
+import Dispositivos from "../pages/Dispositivos";
+import Historial from "../pages/Historial";
 
 const AppRouter = () => {
   return (
@@ -49,7 +24,7 @@ const AppRouter = () => {
 
           <Route
             path="dashboard"
-            element={<DashboardPlaceholder />}
+            element={<Dashboard />}
           />
 
           <Route
@@ -59,7 +34,7 @@ const AppRouter = () => {
 
           <Route
             path="dispositivos"
-            element={<DispositivosPlaceholder />}
+            element={<Dispositivos />}
           />
 
           <Route
