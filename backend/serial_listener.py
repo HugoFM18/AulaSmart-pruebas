@@ -3,36 +3,66 @@ import requests
 import time
 
 # =====================================================
-# CONFIGURACION
+# AULASMART SERIAL LISTENER
+# Arduino → Django → Supabase
 # =====================================================
+
+# =========================
+# CONFIGURACION
+# =========================
 
 SERIAL_PORT = 'COM5'
-
 BAUD_RATE = 9600
 
+# Backend local Django
 API_URL = 'http://127.0.0.1:8000/api/datos/'
 
+# ID del dispositivo en Django Admin
 DISPOSITIVO_ID = 1
 
+# Tiempo entre reintentos si ocurre error
+RETRY_SECONDS = 3
+
 # =====================================================
-
-arduino = serial.Serial(
-    SERIAL_PORT,
-    BAUD_RATE,
-    timeout=1
-)
-
-time.sleep(2)
 
 print("===================================")
 print(" AulaSmart Serial Listener")
 print("===================================")
 
 # =====================================================
+# CONEXION SERIAL
+# =====================================================
+
+try:
+
+    arduino = serial.Serial(
+        SERIAL_PORT,
+        BAUD_RATE,
+        timeout=2
+    )
+
+    time.sleep(2)
+
+    print(f"✓ Arduino conectado en {SERIAL_PORT}")
+
+except Exception as e:
+
+    print("ERROR conectando Arduino:")
+    print(e)
+
+    exit()
+
+# =====================================================
+# LOOP PRINCIPAL
+# =====================================================
 
 while True:
 
     try:
+
+        # =============================================
+        # LEER LINEA SERIAL
+        # =============================================
 
         linea = (
             arduino
@@ -41,79 +71,163 @@ while True:
             .strip()
         )
 
-        if linea:
+        # Ignorar líneas vacías
+        if not linea:
+            continue
 
-            print("\nDatos recibidos:")
-            print(linea)
+        print("\n===================================")
+        print("Datos recibidos:")
+        print(linea)
 
-            datos = linea.split(",")
+        # =============================================
+        # FORMATO ESPERADO:
+        # temperatura,humedad,luz,sonido
+        # =============================================
 
-            if len(datos) == 4:
+        partes = linea.split(",")
 
-                temperatura = float(datos[0])
-                humedad     = float(datos[1])
-                luz         = float(datos[2])
-                sonido      = float(datos[3])
+        # Validar cantidad
+        if len(partes) != 4:
 
-                sensores = [
+            print("⚠ Formato inválido")
+            print("Se esperaban 4 valores")
 
-                    {
-                        "tipo_sensor": "temperatura",
-                        "valor": temperatura,
-                        "unidad": "°C"
-                    },
+            continue
 
-                    {
-                        "tipo_sensor": "humedad",
-                        "valor": humedad,
-                        "unidad": "%"
-                    },
+        # =============================================
+        # CONVERTIR DATOS
+        # =============================================
 
-                    {
-                        "tipo_sensor": "luz",
-                        "valor": luz,
-                        "unidad": "lux"
-                    },
+        temperatura = float(partes[0])
+        humedad     = float(partes[1])
+        luz         = float(partes[2])
+        sonido      = float(partes[3])
 
-                    {
-                        "tipo_sensor": "sonido",
-                        "valor": sonido,
-                        "unidad": "dB"
-                    },
-                ]
+        # =============================================
+        # VALIDACIONES BASICAS
+        # =============================================
 
-                # =========================================
-                # ENVIAR CADA SENSOR
-                # =========================================
+        # Evitar datos basura del DHT
+        if temperatura == 0 and humedad == 0:
 
-                for sensor in sensores:
+            print("⚠ Datos inválidos DHT")
 
-                    payload = {
+            continue
 
-                        "dispositivo_id": DISPOSITIVO_ID,
+        # =============================================
+        # MOSTRAR DATOS
+        # =============================================
 
-                        "tipo_sensor":
-                            sensor["tipo_sensor"],
+        print(f"Temperatura: {temperatura} °C")
+        print(f"Humedad:     {humedad} %")
+        print(f"Luz:         {luz}")
+        print(f"Sonido:      {sonido}")
 
-                        "valor":
-                            sensor["valor"],
+        # =============================================
+        # LISTA DE SENSORES
+        # =============================================
 
-                        "unidad":
-                            sensor["unidad"]
-                    }
+        sensores = [
 
-                    response = requests.post(
-                        API_URL,
-                        json=payload
-                    )
+            {
+                "tipo_sensor": "temperatura",
+                "valor": temperatura,
+                "unidad": "°C"
+            },
+
+            {
+                "tipo_sensor": "humedad",
+                "valor": humedad,
+                "unidad": "%"
+            },
+
+            {
+                "tipo_sensor": "luz",
+                "valor": luz,
+                "unidad": "lux"
+            },
+
+            {
+                "tipo_sensor": "sonido",
+                "valor": sonido,
+                "unidad": "dB"
+            },
+        ]
+
+        # =============================================
+        # ENVIAR A DJANGO
+        # =============================================
+
+        for sensor in sensores:
+
+            payload = {
+
+                "dispositivo_id": DISPOSITIVO_ID,
+
+                "tipo_sensor":
+                    sensor["tipo_sensor"],
+
+                "valor":
+                    sensor["valor"],
+
+                "unidad":
+                    sensor["unidad"]
+            }
+
+            try:
+
+                response = requests.post(
+                    API_URL,
+                    json=payload,
+                    timeout=5
+                )
+
+                if response.status_code == 201:
 
                     print(
-                        f"✓ {sensor['tipo_sensor']} enviada:",
+                        f"✓ {sensor['tipo_sensor']} enviada correctamente"
+                    )
+
+                else:
+
+                    print(
+                        f"⚠ Error {sensor['tipo_sensor']}:",
                         response.status_code
                     )
 
+                    print(response.text)
+
+            except requests.exceptions.RequestException as e:
+
+                print(
+                    f"ERROR enviando {sensor['tipo_sensor']}:"
+                )
+
+                print(e)
+
+        print("===================================")
+
+    except KeyboardInterrupt:
+
+        print("\nListener detenido manualmente")
+
+        break
+
     except Exception as e:
 
-        print("ERROR:", e)
+        print("\nERROR GENERAL:")
+        print(e)
 
-        time.sleep(2)
+        print(
+            f"Reintentando en {RETRY_SECONDS} segundos..."
+        )
+
+        time.sleep(RETRY_SECONDS)
+
+# =====================================================
+# CERRAR SERIAL
+# =====================================================
+
+arduino.close()
+
+print("Puerto serial cerrado")
