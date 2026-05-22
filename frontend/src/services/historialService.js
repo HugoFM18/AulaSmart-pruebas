@@ -1,23 +1,21 @@
-import axios from "axios"
-
-const API_URL =
-  "http://127.0.0.1:8000/api/historial/"
+import api from "../api/axios";
 
 export const getHistorial = async () => {
 
   try {
 
-    const response = await axios.get(API_URL)
+    const response =
+      await api.get("/historial/");
 
-    return response.data
+    return response.data;
 
   } catch (error) {
 
     console.error(
       "Error obteniendo historial:",
       error
-    )
+    );
 
-    throw error
+    throw error;
   }
-}
+};

@@ -121,7 +121,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "https://proyecto-iot-d7gb.onrender.com",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False

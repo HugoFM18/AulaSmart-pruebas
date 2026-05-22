@@ -1,37 +1,48 @@
 from django.urls import path
+from django.http import JsonResponse
 from . import views
 
-urlpatterns = [
 
-    # Dashboard general
+urlpatterns = [
+  
+
+    path(
+        '',
+        lambda request: JsonResponse({
+            "mensaje": "API AulaSmart funcionando"
+        }),
+        name='api-root'
+    ),
+
+
     path(
         'dashboard/',
         views.DashboardView.as_view(),
         name='dashboard'
     ),
 
-    # Datos sensores
+   
+
     path(
         'datos/',
         views.DatosView.as_view(),
         name='datos'
     ),
 
-    # Alertas
+
     path(
         'alertas/',
         views.AlertasView.as_view(),
         name='alertas'
     ),
 
-    # Dispositivos
     path(
         'dispositivos/',
         views.DispositivosView.as_view(),
         name='dispositivos'
     ),
 
-    # Historial
+
     path(
         'historial/',
         views.HistorialView.as_view(),
