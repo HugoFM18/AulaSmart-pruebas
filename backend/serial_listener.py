@@ -14,13 +14,13 @@ import time
 SERIAL_PORT = 'COM5'
 BAUD_RATE = 9600
 
-# Backend local Django
+# Backend Render
 API_URL = 'https://proyecto-iot-d7gb.onrender.com/api/datos/'
 
 # ID del dispositivo en Django Admin
 DISPOSITIVO_ID = 1
 
-# Tiempo entre reintentos si ocurre error
+# Tiempo entre reintentos
 RETRY_SECONDS = 3
 
 # =====================================================
@@ -60,10 +60,6 @@ while True:
 
     try:
 
-        # =============================================
-        # LEER LINEA SERIAL
-        # =============================================
-
         linea = (
             arduino
             .readline()
@@ -71,7 +67,6 @@ while True:
             .strip()
         )
 
-        # Ignorar líneas vacías
         if not linea:
             continue
 
@@ -79,14 +74,8 @@ while True:
         print("Datos recibidos:")
         print(linea)
 
-        # =============================================
-        # FORMATO ESPERADO:
-        # temperatura,humedad,luz,sonido
-        # =============================================
-
         partes = linea.split(",")
 
-        # Validar cantidad
         if len(partes) != 4:
 
             print("⚠ Formato inválido")
@@ -94,38 +83,51 @@ while True:
 
             continue
 
-        # =============================================
-        # CONVERTIR DATOS
-        # =============================================
+        # =====================================================
+        # CONVERSIONES
+        # =====================================================
 
         temperatura = float(partes[0])
         humedad     = float(partes[1])
-        luz         = float(partes[2])
-        sonido      = float(partes[3])
 
-        # =============================================
-        # VALIDACIONES BASICAS
-        # =============================================
+        # Luz normalizada
+        luz_raw = float(partes[2])
 
-        # Evitar datos basura del DHT
+        luz = round(
+            (luz_raw / 1023) * 300,
+            1
+        )
+
+        # Sonido convertido a dB
+        sonido_raw = float(partes[3])
+
+        sonido = round(
+            (sonido_raw / 1023) * 80,
+            1
+        )
+
+        # =====================================================
+        # VALIDACIONES
+        # =====================================================
+
         if temperatura == 0 and humedad == 0:
 
             print("⚠ Datos inválidos DHT")
 
             continue
 
-        # =============================================
+        # =====================================================
         # MOSTRAR DATOS
-        # =============================================
+        # =====================================================
 
         print(f"Temperatura: {temperatura} °C")
         print(f"Humedad:     {humedad} %")
-        print(f"Luz:         {luz}")
-        print(f"Sonido:      {sonido}")
+        print(f"Luz:         {luz} lx")
+        print(f"Sonido:      {sonido} dB")
 
-        # =============================================
-        # LISTA DE SENSORES
-        # =============================================
+        # =====================================================
+        # SENSORES
+        # =====================================================
 
         sensores = [
 
@@ -144,7 +146,7 @@ while True:
             {
                 "tipo_sensor": "luz",
                 "valor": luz,
-                "unidad": "lux"
+                "unidad": "lx"
             },
 
             {
@@ -154,9 +156,9 @@ while True:
             },
         ]
 
-        # =============================================
+        # =====================================================
         # ENVIAR A DJANGO
-        # =============================================
+        # =====================================================
 
         for sensor in sensores:
 

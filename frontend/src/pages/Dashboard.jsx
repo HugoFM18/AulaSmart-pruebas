@@ -79,8 +79,6 @@ const Dashboard = () => {
 
     <div className="dashboard-page">
 
-      {/* HEADER */}
-
       <div className="page-header">
 
         <h1>
@@ -92,8 +90,6 @@ const Dashboard = () => {
         </p>
 
       </div>
-
-      {/* ESTADO DEL AULA */}
 
       <AulaStatus stats={stats} />
 
@@ -151,18 +147,26 @@ const Dashboard = () => {
 
           <TemperatureChart
             data={temperaturaData}
+            safeLimit={28}
+            dangerLimit={35}
           />
 
           <HumidityChart
             data={humedadData}
+            safeLimit={70}
+            dangerLimit={85}
           />
 
           <SoundChart
             data={sonidoData}
+            safeLimit={55}
+            dangerLimit={70}
           />
 
           <LightChart
             data={luzData}
+            safeLimit={80}
+            dangerLimit={250}
           />
 
         </div>

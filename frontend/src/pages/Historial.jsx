@@ -16,6 +16,7 @@ import { getHistorial } from "../services/historialService";
 import "./Historial.css";
 
 const Historial = () => {
+
   const [historial, setHistorial] = useState([]);
   const [stats, setStats] = useState({});
   const [loading, setLoading] = useState(true);
@@ -25,13 +26,10 @@ const Historial = () => {
   }, []);
 
   const fetchHistorial = async () => {
-    try {
-      const response = await getHistorial();
 
-      console.log(
-        "RESPUESTA HISTORIAL:",
-        response
-      );
+    try {
+
+      const response = await getHistorial();
 
       setHistorial(
         response.historial || []
@@ -42,16 +40,18 @@ const Historial = () => {
       );
 
     } catch (error) {
+
       console.error(
         "Error obteniendo historial:",
         error
       );
+
     } finally {
+
       setLoading(false);
+
     }
   };
-
-  // FILTROS POR SENSOR
 
   const temperaturaData =
     historial.filter(
@@ -78,15 +78,19 @@ const Historial = () => {
     );
 
   return (
+
     <div className="historial-page">
 
       <div className="page-header">
-        <h1>Historial Ambiental</h1>
+
+        <h1>
+          Historial Ambiental
+        </h1>
 
         <p>
-          Monitoreo histórico y análisis
-          estadístico de sensores IoT.
+          Monitoreo histórico y análisis estadístico.
         </p>
+
       </div>
 
       {/* KPIs */}
@@ -94,8 +98,7 @@ const Historial = () => {
       <div className="stats-grid">
 
         <div className="stat-card">
-          <h3>Temperatura Promedio</h3>
-
+          <h3>Temperatura</h3>
           <p>
             {
               stats.promedios
@@ -105,8 +108,7 @@ const Historial = () => {
         </div>
 
         <div className="stat-card">
-          <h3>Humedad Promedio</h3>
-
+          <h3>Humedad</h3>
           <p>
             {
               stats.promedios
@@ -116,8 +118,7 @@ const Historial = () => {
         </div>
 
         <div className="stat-card">
-          <h3>Ruido Promedio</h3>
-
+          <h3>Ruido</h3>
           <p>
             {
               stats.promedios
@@ -127,8 +128,7 @@ const Historial = () => {
         </div>
 
         <div className="stat-card">
-          <h3>Luz Promedio</h3>
-
+          <h3>Luz</h3>
           <p>
             {
               stats.promedios
@@ -148,12 +148,14 @@ const Historial = () => {
           <table className="historial-table">
 
             <thead>
+
               <tr>
                 <th>Sensor</th>
                 <th>Valor</th>
                 <th>Unidad</th>
                 <th>Fecha</th>
               </tr>
+
             </thead>
 
             <tbody>
@@ -162,21 +164,13 @@ const Historial = () => {
 
                 <tr key={item.id}>
 
-                  <td>
-                    {item.sensor}
-                  </td>
+                  <td>{item.sensor}</td>
 
-                  <td>
-                    {item.valor}
-                  </td>
+                  <td>{item.valor}</td>
 
-                  <td>
-                    {item.unidad}
-                  </td>
+                  <td>{item.unidad}</td>
 
-                  <td>
-                    {item.fecha}
-                  </td>
+                  <td>{item.fecha}</td>
 
                 </tr>
 
@@ -190,7 +184,7 @@ const Historial = () => {
 
       )}
 
-      {/* GRÁFICAS */}
+      {/* GRAFICAS */}
 
       <div className="charts-grid">
 
@@ -205,28 +199,24 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart
-              data={temperaturaData}
-            >
+            <LineChart data={temperaturaData}>
 
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis dataKey="fecha" />
 
-              <YAxis
-                domain={[-10, 50]}
-              />
+              <YAxis domain={[0, 45]} />
 
               <Tooltip />
 
               <ReferenceLine
-                y={35}
+                y={28}
                 stroke="orange"
                 strokeDasharray="5 5"
               />
 
               <ReferenceLine
-                y={45}
+                y={35}
                 stroke="red"
                 strokeDasharray="5 5"
               />
@@ -236,9 +226,7 @@ const Historial = () => {
                 dataKey="valor"
                 stroke="#ef4444"
                 strokeWidth={3}
-                dot={{ r: 6 }}
-                activeDot={{ r: 8 }}
-                connectNulls
+                dot={{ r: 4 }}
               />
 
             </LineChart>
@@ -258,17 +246,13 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart
-              data={humedadData}
-            >
+            <LineChart data={humedadData}>
 
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis dataKey="fecha" />
 
-              <YAxis
-                domain={[0, 100]}
-              />
+              <YAxis domain={[0, 100]} />
 
               <Tooltip />
 
@@ -289,9 +273,7 @@ const Historial = () => {
                 dataKey="valor"
                 stroke="#3b82f6"
                 strokeWidth={3}
-                dot={{ r: 6 }}
-                activeDot={{ r: 8 }}
-                connectNulls
+                dot={{ r: 4 }}
               />
 
             </LineChart>
@@ -311,28 +293,24 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart
-              data={ruidoData}
-            >
+            <LineChart data={ruidoData}>
 
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis dataKey="fecha" />
 
-              <YAxis
-                domain={[0, 130]}
-              />
+              <YAxis domain={[0, 80]} />
 
               <Tooltip />
 
               <ReferenceLine
-                y={70}
+                y={55}
                 stroke="orange"
                 strokeDasharray="5 5"
               />
 
               <ReferenceLine
-                y={100}
+                y={70}
                 stroke="red"
                 strokeDasharray="5 5"
               />
@@ -342,9 +320,7 @@ const Historial = () => {
                 dataKey="valor"
                 stroke="#22c55e"
                 strokeWidth={3}
-                dot={{ r: 6 }}
-                activeDot={{ r: 8 }}
-                connectNulls
+                dot={{ r: 4 }}
               />
 
             </LineChart>
@@ -364,22 +340,18 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart
-              data={luzData}
-            >
+            <LineChart data={luzData}>
 
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis dataKey="fecha" />
 
-              <YAxis
-                domain={[0, 300]}
-              />
+              <YAxis domain={[0, 300]} />
 
               <Tooltip />
 
               <ReferenceLine
-                y={100}
+                y={80}
                 stroke="orange"
                 strokeDasharray="5 5"
               />
@@ -395,9 +367,7 @@ const Historial = () => {
                 dataKey="valor"
                 stroke="#eab308"
                 strokeWidth={3}
-                dot={{ r: 6 }}
-                activeDot={{ r: 8 }}
-                connectNulls
+                dot={{ r: 4 }}
               />
 
             </LineChart>
