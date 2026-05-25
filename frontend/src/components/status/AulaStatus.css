@@ -1,0 +1,122 @@
+.aula-status {
+  width: 100%;
+
+  padding: 24px;
+
+  border-radius: 18px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  color: white;
+
+  transition: 0.3s ease;
+}
+
+/* ESTADOS */
+
+.aula-status.estable {
+  background:
+    linear-gradient(
+      135deg,
+      #15803d,
+      #166534
+    );
+
+  border:
+    2px solid #22c55e;
+}
+
+.aula-status.precaucion {
+  background:
+    linear-gradient(
+      135deg,
+      #ca8a04,
+      #a16207
+    );
+
+  border:
+    2px solid #facc15;
+}
+
+.aula-status.critico {
+  background:
+    linear-gradient(
+      135deg,
+      #b91c1c,
+      #7f1d1d
+    );
+
+  border:
+    2px solid #ef4444;
+}
+
+/* HEADER */
+
+.status-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.status-header h2 {
+  font-size: 24px;
+
+  font-weight: 700;
+}
+
+/* BADGE */
+
+.status-badge {
+  padding:
+    10px 18px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(255,255,255,0.15);
+
+  backdrop-filter: blur(10px);
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+/* MENSAJE */
+
+.status-message {
+  font-size: 16px;
+
+  color:
+    rgba(255,255,255,0.9);
+}
+
+/* DETAILS */
+
+.status-details {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(180px, 1fr));
+
+  gap: 14px;
+}
+
+.status-details div {
+  background:
+    rgba(255,255,255,0.12);
+
+  padding: 14px;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+}

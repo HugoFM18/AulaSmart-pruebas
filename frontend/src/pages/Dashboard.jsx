@@ -7,6 +7,8 @@ import HumidityChart from "../components/charts/HumidityChart";
 import SoundChart from "../components/charts/SoundChart";
 import LightChart from "../components/charts/LightChart";
 
+import AulaStatus from "../components/status/AulaStatus";
+
 import { getHistorial } from "../services/historialService";
 
 import "./Dashboard.css";
@@ -74,7 +76,10 @@ const Dashboard = () => {
     );
 
   return (
+
     <div className="dashboard-page">
+
+      {/* HEADER */}
 
       <div className="page-header">
 
@@ -88,7 +93,11 @@ const Dashboard = () => {
 
       </div>
 
-      {/* KPIs */}
+      {/* ESTADO DEL AULA */}
+
+      <AulaStatus stats={stats} />
+
+      {/* KPI CARDS */}
 
       <div className="sensor-grid">
 
@@ -165,5 +174,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
