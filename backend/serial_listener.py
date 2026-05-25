@@ -15,7 +15,7 @@ SERIAL_PORT = 'COM5'
 BAUD_RATE = 9600
 
 # Backend local Django
-API_URL = 'http://127.0.0.1:8000/api/datos/'
+API_URL = 'https://proyecto-iot-d7gb.onrender.com/api/datos/'
 
 # ID del dispositivo en Django Admin
 DISPOSITIVO_ID = 1
