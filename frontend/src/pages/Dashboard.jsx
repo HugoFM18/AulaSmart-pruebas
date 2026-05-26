@@ -100,7 +100,7 @@ const Dashboard = () => {
         <SensorCard
           title="Temperatura"
           value={
-            stats.promedios
+            stats.promedios.toFixed(2)
               ?.temperatura || "--"
           }
           unit="°C"
@@ -110,7 +110,7 @@ const Dashboard = () => {
         <SensorCard
           title="Humedad"
           value={
-            stats.promedios
+            stats.promedios.toFixed(2)
               ?.humedad || "--"
           }
           unit="%"
@@ -120,7 +120,7 @@ const Dashboard = () => {
         <SensorCard
           title="Ruido"
           value={
-            stats.promedios
+            stats.promedios.toFixed(2)
               ?.sonido || "--"
           }
           unit="dB"
@@ -130,7 +130,7 @@ const Dashboard = () => {
         <SensorCard
           title="Luz"
           value={
-            stats.promedios
+            stats.promedios.toFixed(2)
               ?.luz || "--"
           }
           unit="lx"

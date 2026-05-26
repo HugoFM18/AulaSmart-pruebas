@@ -53,6 +53,45 @@ const Historial = () => {
     }
   };
 
+  // =========================================
+  // FORMATEAR FECHA
+  // =========================================
+
+  const formatFecha = (fecha) => {
+
+    return new Date(fecha).toLocaleString(
+      "es-CO",
+      {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }
+    );
+  };
+
+  // =========================================
+  // FORMATEAR VALORES
+  // =========================================
+
+  const formatValor = (valor) => {
+
+    if (
+      valor === null ||
+      valor === undefined
+    ) {
+      return "--";
+    }
+
+    return Number(valor).toFixed(2);
+  };
+
+  // =========================================
+  // FILTROS
+  // =========================================
+
   const temperaturaData =
     historial.filter(
       (item) =>
@@ -98,43 +137,59 @@ const Historial = () => {
       <div className="stats-grid">
 
         <div className="stat-card">
+
           <h3>Temperatura</h3>
+
           <p>
             {
-              stats.promedios
-                ?.temperatura || "--"
+              formatValor(
+                stats.promedios?.temperatura
+              )
             } °C
           </p>
+
         </div>
 
         <div className="stat-card">
+
           <h3>Humedad</h3>
+
           <p>
             {
-              stats.promedios
-                ?.humedad || "--"
+              formatValor(
+                stats.promedios?.humedad
+              )
             } %
           </p>
+
         </div>
 
         <div className="stat-card">
+
           <h3>Ruido</h3>
+
           <p>
             {
-              stats.promedios
-                ?.sonido || "--"
+              formatValor(
+                stats.promedios?.sonido
+              )
             } dB
           </p>
+
         </div>
 
         <div className="stat-card">
+
           <h3>Luz</h3>
+
           <p>
             {
-              stats.promedios
-                ?.luz || "--"
+              formatValor(
+                stats.promedios?.luz
+              )
             } lx
           </p>
+
         </div>
 
       </div>
@@ -164,13 +219,29 @@ const Historial = () => {
 
                 <tr key={item.id}>
 
-                  <td>{item.sensor}</td>
+                  <td>
+                    {item.sensor}
+                  </td>
 
-                  <td>{item.valor}</td>
+                  <td>
+                    {
+                      formatValor(
+                        item.valor
+                      )
+                    }
+                  </td>
 
-                  <td>{item.unidad}</td>
+                  <td>
+                    {item.unidad}
+                  </td>
 
-                  <td>{item.fecha}</td>
+                  <td>
+                    {
+                      formatFecha(
+                        item.fecha
+                      )
+                    }
+                  </td>
 
                 </tr>
 
@@ -199,15 +270,42 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart data={temperaturaData}>
+            <LineChart
+              data={temperaturaData}
+            >
 
               <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="fecha" />
+              <XAxis
+                dataKey="fecha"
+                tickFormatter={(value) =>
+                  new Date(value)
+                  .toLocaleTimeString(
+                    "es-CO",
+                    {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
+                  )
+                }
+              />
 
-              <YAxis domain={[0, 45]} />
+              <YAxis
+                domain={[0, 45]}
+              />
 
-              <Tooltip />
+              <Tooltip
+                formatter={(value) =>
+                  [
+                    Number(value)
+                    .toFixed(2),
+                    "Temperatura"
+                  ]
+                }
+                labelFormatter={(label) =>
+                  formatFecha(label)
+                }
+              />
 
               <ReferenceLine
                 y={28}
@@ -246,15 +344,42 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart data={humedadData}>
+            <LineChart
+              data={humedadData}
+            >
 
               <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="fecha" />
+              <XAxis
+                dataKey="fecha"
+                tickFormatter={(value) =>
+                  new Date(value)
+                  .toLocaleTimeString(
+                    "es-CO",
+                    {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
+                  )
+                }
+              />
 
-              <YAxis domain={[0, 100]} />
+              <YAxis
+                domain={[0, 100]}
+              />
 
-              <Tooltip />
+              <Tooltip
+                formatter={(value) =>
+                  [
+                    Number(value)
+                    .toFixed(2),
+                    "Humedad"
+                  ]
+                }
+                labelFormatter={(label) =>
+                  formatFecha(label)
+                }
+              />
 
               <ReferenceLine
                 y={70}
@@ -293,15 +418,42 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart data={ruidoData}>
+            <LineChart
+              data={ruidoData}
+            >
 
               <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="fecha" />
+              <XAxis
+                dataKey="fecha"
+                tickFormatter={(value) =>
+                  new Date(value)
+                  .toLocaleTimeString(
+                    "es-CO",
+                    {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
+                  )
+                }
+              />
 
-              <YAxis domain={[0, 80]} />
+              <YAxis
+                domain={[0, 80]}
+              />
 
-              <Tooltip />
+              <Tooltip
+                formatter={(value) =>
+                  [
+                    Number(value)
+                    .toFixed(2),
+                    "Ruido"
+                  ]
+                }
+                labelFormatter={(label) =>
+                  formatFecha(label)
+                }
+              />
 
               <ReferenceLine
                 y={55}
@@ -340,15 +492,42 @@ const Historial = () => {
             height={250}
           >
 
-            <LineChart data={luzData}>
+            <LineChart
+              data={luzData}
+            >
 
               <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="fecha" />
+              <XAxis
+                dataKey="fecha"
+                tickFormatter={(value) =>
+                  new Date(value)
+                  .toLocaleTimeString(
+                    "es-CO",
+                    {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
+                  )
+                }
+              />
 
-              <YAxis domain={[0, 300]} />
+              <YAxis
+                domain={[0, 300]}
+              />
 
-              <Tooltip />
+              <Tooltip
+                formatter={(value) =>
+                  [
+                    Number(value)
+                    .toFixed(2),
+                    "Luz"
+                  ]
+                }
+                labelFormatter={(label) =>
+                  formatFecha(label)
+                }
+              />
 
               <ReferenceLine
                 y={80}
