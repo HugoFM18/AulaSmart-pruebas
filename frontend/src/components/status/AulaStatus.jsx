@@ -2,116 +2,69 @@ import "./AulaStatus.css";
 
 const AulaStatus = ({ stats }) => {
 
+  // =====================================
+  // VALORES
+  // =====================================
+
   const temperatura =
     stats.promedios?.temperatura || 0;
 
   const humedad =
     stats.promedios?.humedad || 0;
 
-  const sonido =
+  const ruido =
     stats.promedios?.sonido || 0;
 
   const luz =
     stats.promedios?.luz || 0;
 
-  let estado = "Aula estable";
-  let mensaje =
-    "Las condiciones ambientales son óptimas.";
-  let clase = "estable";
-  let icono = "🟢";
+  // =====================================
+  // FORMATEAR
+  // =====================================
 
-  let alertas = 0;
+  const formatValor = (valor) => {
 
-  // TEMPERATURA
+    return Number(valor).toFixed(2);
 
-  if (
-    temperatura > 30
-  ) {
-    alertas++;
-  }
+  };
 
-  if (
-    temperatura > 33
-  ) {
-    alertas += 2;
-  }
+  // =====================================
+  // REGLAS
+  // =====================================
 
-  // HUMEDAD
+  const temperaturaOK =
+    temperatura <= 28;
 
-  if (
-    humedad > 70
-  ) {
-    alertas++;
-  }
+  const humedadOK =
+    humedad >= 30 &&
+    humedad <= 70;
 
-  if (
-    humedad > 80
-  ) {
-    alertas += 2;
-  }
+  const ruidoOK =
+    ruido <= 55;
 
-  // SONIDO
+  const luzOK =
+    luz >= 80 &&
+    luz <= 250;
 
-  if (
-    sonido > 750
-  ) {
-    alertas++;
-  }
+  // =====================================
+  // ESTADO GENERAL
+  // =====================================
 
-  if (
-    sonido > 900
-  ) {
-    alertas += 2;
-  }
-
-  // LUZ
-
-  if (
-    luz < 250
-  ) {
-    alertas++;
-  }
-
-  if (
-    luz < 120
-  ) {
-    alertas += 2;
-  }
-
-  // ESTADO FINAL
-
-  if (
-    alertas >= 4
-  ) {
-
-    estado = "Aula no apta";
-
-    mensaje =
-      "Las condiciones ambientales son críticas.";
-
-    clase = "critico";
-
-    icono = "🔴";
-
-  }
-
-  else if (
-    alertas >= 2
-  ) {
-
-    estado = "Precaución";
-
-    mensaje =
-      "Se detectaron condiciones irregulares.";
-
-    clase = "precaucion";
-
-    icono = "🟡";
-  }
+  const aulaEstable =
+    temperaturaOK &&
+    humedadOK &&
+    ruidoOK &&
+    luzOK;
 
   return (
 
-    <div className={`aula-status ${clase}`}>
+    <div
+      className={
+        aulaEstable
+          ? "aula-status estable"
+          : "aula-status alerta"
+      }
+    >
 
       <div className="status-header">
 
@@ -119,37 +72,47 @@ const AulaStatus = ({ stats }) => {
           Estado del Aula
         </h2>
 
-        <span className="status-badge">
-          {icono} {estado}
+        <span>
+
+          {
+            aulaEstable
+              ? "ESTABLE"
+              : "NO ESTABLE"
+          }
+
         </span>
 
       </div>
 
-      <p className="status-message">
-        {mensaje}
-      </p>
-
       <div className="status-details">
 
-        <div>
+        <p>
           🌡 Temperatura:
-          {temperatura} °C
-        </div>
+          {" "}
+          {formatValor(temperatura)}
+          °C
+        </p>
 
-        <div>
+        <p>
           💧 Humedad:
-          {humedad} %
-        </div>
+          {" "}
+          {formatValor(humedad)}
+          %
+        </p>
 
-        <div>
+        <p>
           🔊 Ruido:
-          {sonido}
-        </div>
+          {" "}
+          {formatValor(ruido)}
+          dB
+        </p>
 
-        <div>
+        <p>
           💡 Luz:
-          {luz}
-        </div>
+          {" "}
+          {formatValor(luz)}
+          lx
+        </p>
 
       </div>
 
