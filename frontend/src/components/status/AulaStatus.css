@@ -1,4 +1,5 @@
 .aula-status {
+
   width: 100%;
 
   padding: 24px;
@@ -14,11 +15,18 @@
   color: white;
 
   transition: 0.3s ease;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.25);
+
 }
 
-/* ESTADOS */
+/* =====================================
+   ESTADOS
+===================================== */
 
 .aula-status.estable {
+
   background:
     linear-gradient(
       135deg,
@@ -28,9 +36,11 @@
 
   border:
     2px solid #22c55e;
+
 }
 
 .aula-status.precaucion {
+
   background:
     linear-gradient(
       135deg,
@@ -40,9 +50,11 @@
 
   border:
     2px solid #facc15;
+
 }
 
 .aula-status.critico {
+
   background:
     linear-gradient(
       135deg,
@@ -52,11 +64,15 @@
 
   border:
     2px solid #ef4444;
+
 }
 
-/* HEADER */
+/* =====================================
+   HEADER
+===================================== */
 
 .status-header {
+
   display: flex;
 
   justify-content: space-between;
@@ -64,17 +80,25 @@
   align-items: center;
 
   gap: 20px;
+
 }
 
 .status-header h2 {
+
   font-size: 24px;
 
   font-weight: 700;
+
+  margin-bottom: 6px;
+
 }
 
-/* BADGE */
+/* =====================================
+   BADGE
+===================================== */
 
 .status-badge {
+
   padding:
     10px 18px;
 
@@ -87,30 +111,53 @@
 
   font-size: 14px;
 
-  font-weight: 600;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
 }
 
-/* MENSAJE */
+/* =====================================
+   MENSAJES
+===================================== */
 
 .status-message {
-  font-size: 16px;
+
+  font-size: 18px;
+
+  font-weight: 600;
 
   color:
-    rgba(255,255,255,0.9);
+    rgba(255,255,255,0.95);
+
 }
 
-/* DETAILS */
+.status-description {
+
+  font-size: 15px;
+
+  color:
+    rgba(255,255,255,0.85);
+
+}
+
+/* =====================================
+   DETAILS
+===================================== */
 
 .status-details {
+
   display: grid;
 
   grid-template-columns:
     repeat(auto-fit, minmax(180px, 1fr));
 
   gap: 14px;
+
 }
 
 .status-details div {
+
   background:
     rgba(255,255,255,0.12);
 
@@ -119,4 +166,9 @@
   border-radius: 12px;
 
   font-size: 15px;
+
+  font-weight: 500;
+
+  backdrop-filter: blur(6px);
+
 }

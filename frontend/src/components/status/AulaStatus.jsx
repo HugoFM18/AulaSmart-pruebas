@@ -29,7 +29,7 @@ const AulaStatus = ({ stats }) => {
   };
 
   // =====================================
-  // REGLAS
+  // VALIDACIONES
   // =====================================
 
   const temperaturaOK =
@@ -47,72 +47,138 @@ const AulaStatus = ({ stats }) => {
     luz <= 250;
 
   // =====================================
-  // ESTADO GENERAL
+  // CONDICIONES
   // =====================================
 
-  const aulaEstable =
-    temperaturaOK &&
-    humedadOK &&
-    ruidoOK &&
-    luzOK;
+  const condicionesBuenas = [
+
+    temperaturaOK,
+    humedadOK,
+    ruidoOK,
+    luzOK,
+
+  ].filter(Boolean).length;
+
+  // =====================================
+  // ESTADO
+  // =====================================
+
+  let estado = "";
+  let titulo = "";
+  let mensaje = "";
+
+  if (condicionesBuenas === 4) {
+
+    estado = "estable";
+
+    titulo = "🟢 Aula apta";
+
+    mensaje =
+      "Las condiciones ambientales son óptimas.";
+
+  }
+
+  else if (condicionesBuenas >= 2) {
+
+    estado = "precaucion";
+
+    titulo = "🟡 Aula en observación";
+
+    mensaje =
+      "Existen condiciones ambientales moderadas.";
+
+  }
+
+  else {
+
+    estado = "critico";
+
+    titulo = "🔴 Aula no apta";
+
+    mensaje =
+      "Las condiciones ambientales son críticas.";
+
+  }
 
   return (
 
     <div
-      className={
-        aulaEstable
-          ? "aula-status estable"
-          : "aula-status alerta"
-      }
+      className={`aula-status ${estado}`}
     >
+
+      {/* HEADER */}
 
       <div className="status-header">
 
-        <h2>
-          Estado del Aula
-        </h2>
+        <div>
 
-        <span>
+          <h2>
+            Estado del Aula
+          </h2>
 
-          {
-            aulaEstable
-              ? "ESTABLE"
-              : "NO ESTABLE"
-          }
+          <p className="status-message">
 
-        </span>
+            {titulo}
+
+          </p>
+
+        </div>
+
+        <div className="status-badge">
+
+          {estado.toUpperCase()}
+
+        </div>
 
       </div>
 
+      {/* MENSAJE */}
+
+      <p className="status-description">
+
+        {mensaje}
+
+      </p>
+
+      {/* DETALLES */}
+
       <div className="status-details">
 
-        <p>
+        <div>
+
           🌡 Temperatura:
           {" "}
           {formatValor(temperatura)}
           °C
-        </p>
 
-        <p>
+        </div>
+
+        <div>
+
           💧 Humedad:
           {" "}
           {formatValor(humedad)}
           %
-        </p>
 
-        <p>
+        </div>
+
+        <div>
+
           🔊 Ruido:
           {" "}
           {formatValor(ruido)}
           dB
-        </p>
 
-        <p>
+        </div>
+
+        <div>
+
           💡 Luz:
           {" "}
           {formatValor(luz)}
           lx
-        </p>
+
+        </div>
 
       </div>
 
