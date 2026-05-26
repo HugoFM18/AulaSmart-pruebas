@@ -51,6 +51,26 @@ const Dashboard = () => {
     }
   };
 
+  // =========================================
+  // FORMATEAR VALORES
+  // =========================================
+
+  const formatValor = (valor) => {
+
+    if (
+      valor === null ||
+      valor === undefined
+    ) {
+      return "--";
+    }
+
+    return Number(valor).toFixed(2);
+  };
+
+  // =========================================
+  // FILTROS
+  // =========================================
+
   const temperaturaData =
     historial.filter(
       (item) =>
@@ -79,6 +99,8 @@ const Dashboard = () => {
 
     <div className="dashboard-page">
 
+      {/* HEADER */}
+
       <div className="page-header">
 
         <h1>
@@ -91,6 +113,8 @@ const Dashboard = () => {
 
       </div>
 
+      {/* ESTADO DEL AULA */}
+
       <AulaStatus stats={stats} />
 
       {/* KPI CARDS */}
@@ -100,9 +124,9 @@ const Dashboard = () => {
         <SensorCard
           title="Temperatura"
           value={
-            stats.promedios?.temperatura
-              ? stats.promedios.temperatura.toFixed(2)
-              : "--"
+            formatValor(
+              stats.promedios?.temperatura
+            )
           }
           unit="°C"
           type="temperature"
@@ -111,9 +135,9 @@ const Dashboard = () => {
         <SensorCard
           title="Humedad"
           value={
-            stats.promedios?.humedad
-              ? stats.promedios.humedad.toFixed(2)
-              : "--"
+            formatValor(
+              stats.promedios?.humedad
+            )
           }
           unit="%"
           type="humidity"
@@ -122,9 +146,9 @@ const Dashboard = () => {
         <SensorCard
           title="Ruido"
           value={
-            stats.promedios?.sonido
-              ? stats.promedios.sonido.toFixed(2)
-              : "--"
+            formatValor(
+              stats.promedios?.sonido
+            )
           }
           unit="dB"
           type="sound"
@@ -133,9 +157,9 @@ const Dashboard = () => {
         <SensorCard
           title="Luz"
           value={
-            stats.promedios?.luz
-              ? stats.promedios.luz.toFixed(2)
-              : "--"
+            formatValor(
+              stats.promedios?.luz
+            )
           }
           unit="lx"
           type="light"
@@ -151,26 +175,18 @@ const Dashboard = () => {
 
           <TemperatureChart
             data={temperaturaData}
-            safeLimit={28}
-            dangerLimit={35}
           />
 
           <HumidityChart
             data={humedadData}
-            safeLimit={70}
-            dangerLimit={85}
           />
 
           <SoundChart
             data={sonidoData}
-            safeLimit={55}
-            dangerLimit={70}
           />
 
           <LightChart
             data={luzData}
-            safeLimit={80}
-            dangerLimit={250}
           />
 
         </div>
