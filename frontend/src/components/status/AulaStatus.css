@@ -22,7 +22,7 @@
 }
 
 /* =====================================
-   ESTADOS
+   ESTABLE
 ===================================== */
 
 .aula-status.estable {
@@ -39,6 +39,10 @@
 
 }
 
+/* =====================================
+   PRECAUCION
+===================================== */
+
 .aula-status.precaucion {
 
   background:
@@ -52,6 +56,10 @@
     2px solid #facc15;
 
 }
+
+/* =====================================
+   CRITICO
+===================================== */
 
 .aula-status.critico {
 
@@ -105,7 +113,7 @@
   border-radius: 999px;
 
   background:
-    rgba(255,255,255,0.15);
+    rgba(255,255,255,0.18);
 
   backdrop-filter: blur(10px);
 
@@ -118,14 +126,14 @@
 }
 
 /* =====================================
-   MENSAJES
+   TEXTOS
 ===================================== */
 
 .status-message {
 
   font-size: 18px;
 
-  font-weight: 600;
+  font-weight: 700;
 
   color:
     rgba(255,255,255,0.95);
@@ -137,7 +145,7 @@
   font-size: 15px;
 
   color:
-    rgba(255,255,255,0.85);
+    rgba(255,255,255,0.9);
 
 }
 
@@ -168,7 +176,5 @@
   font-size: 15px;
 
   font-weight: 500;
-
-  backdrop-filter: blur(6px);
 
 }
