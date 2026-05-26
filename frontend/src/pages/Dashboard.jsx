@@ -100,8 +100,9 @@ const Dashboard = () => {
         <SensorCard
           title="Temperatura"
           value={
-            stats.promedios.toFixed(2)
-              ?.temperatura || "--"
+            stats.promedios?.temperatura
+              ? stats.promedios.temperatura.toFixed(2)
+              : "--"
           }
           unit="°C"
           type="temperature"
@@ -110,8 +111,9 @@ const Dashboard = () => {
         <SensorCard
           title="Humedad"
           value={
-            stats.promedios.toFixed(2)
-              ?.humedad || "--"
+            stats.promedios?.humedad
+              ? stats.promedios.humedad.toFixed(2)
+              : "--"
           }
           unit="%"
           type="humidity"
@@ -120,8 +122,9 @@ const Dashboard = () => {
         <SensorCard
           title="Ruido"
           value={
-            stats.promedios.toFixed(2)
-              ?.sonido || "--"
+            stats.promedios?.sonido
+              ? stats.promedios.sonido.toFixed(2)
+              : "--"
           }
           unit="dB"
           type="sound"
@@ -130,8 +133,9 @@ const Dashboard = () => {
         <SensorCard
           title="Luz"
           value={
-            stats.promedios.toFixed(2)
-              ?.luz || "--"
+            stats.promedios?.luz
+              ? stats.promedios.luz.toFixed(2)
+              : "--"
           }
           unit="lx"
           type="light"

@@ -295,13 +295,10 @@ const Historial = () => {
               />
 
               <Tooltip
-                formatter={(value) =>
-                  [
-                    Number(value)
-                    .toFixed(2),
-                    "Temperatura"
-                  ]
-                }
+                formatter={(value) => [
+                  Number(value).toFixed(2),
+                  "Temperatura"
+                ]}
                 labelFormatter={(label) =>
                   formatFecha(label)
                 }
@@ -369,13 +366,10 @@ const Historial = () => {
               />
 
               <Tooltip
-                formatter={(value) =>
-                  [
-                    Number(value)
-                    .toFixed(2),
-                    "Humedad"
-                  ]
-                }
+                formatter={(value) => [
+                  Number(value).toFixed(2),
+                  "Humedad"
+                ]}
                 labelFormatter={(label) =>
                   formatFecha(label)
                 }
@@ -443,13 +437,10 @@ const Historial = () => {
               />
 
               <Tooltip
-                formatter={(value) =>
-                  [
-                    Number(value)
-                    .toFixed(2),
-                    "Ruido"
-                  ]
-                }
+                formatter={(value) => [
+                  Number(value).toFixed(2),
+                  "Ruido"
+                ]}
                 labelFormatter={(label) =>
                   formatFecha(label)
                 }
@@ -517,13 +508,10 @@ const Historial = () => {
               />
 
               <Tooltip
-                formatter={(value) =>
-                  [
-                    Number(value)
-                    .toFixed(2),
-                    "Luz"
-                  ]
-                }
+                formatter={(value) => [
+                  Number(value).toFixed(2),
+                  "Luz"
+                ]}
                 labelFormatter={(label) =>
                   formatFecha(label)
                 }
